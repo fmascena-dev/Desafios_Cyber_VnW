@@ -1,9 +1,4 @@
-<div style="display: flex; justify-content: space-between; margin-bottom: 1rem; ">
-<img src="./imgs/logo_kensei.png" width="250px" height="100px" />
-<img src="./imgs/logo_vnw.png" width="150px" height="100px" />
-</div>
-
-<h3 style="text-align: center; font-size: 2.5rem; text-decoration: underline;">Relatório de Defesa e Segurança</h3>
+# Relatório de Defesa e Segurança
 
 ## Sumário Executivo
 
@@ -37,7 +32,7 @@ A execução foi planejada com base em boas práticas de testes de segurança, g
 
 Cada etapa foi documentada com timestamps, comandos utilizados, saídas obtidas e análises técnicas, formando um playbook reutilizável para futuras execuções ou treinamentos.
 
-<h3 style="text-align: center; text-decoration: underline;; font-size: 1.8rem"> Fase 1: Reconhecimento</h3>
+### Fase 1: Reconhecimento
 
 O reconhecimento é o ponto de partida em qualquer teste de segurança. Aqui, foram aplicadas técnicas de OSINT e descoberta de rede, começando por análise passiva de DNS reverso até SYN scan stealth com detecção de serviços. Essa técnica (half-open scanning) foi escolhida para minimizar a chance de detecção por sistemas de defesa.
 
@@ -49,13 +44,13 @@ O uso do service detection (-sV) possibilitou identificar versões de software e
 
 ![Código Utilizado](./prints/print01.png)
 
-### **Comando utilizado**
+#### **Comando utilizado**
 
 ```bash
 nmap -sS -sV waf_modsec
 ```
 
-### Resultado principal
+#### Resultado principal
 
 - Host ativo em `192.168.35.30`
 - **Resolução rDNS:** `waf_modsec.labs_labnet35`
@@ -65,13 +60,13 @@ nmap -sS -sV waf_modsec
 - 998 portas fechadas
 - **MAC Address identificado:** 3A:BD:1D:61:98:7A
 
-### Interpretação
+#### Interpretação
 
 - O servidor executa nginx nas portas 8080 (HTTP) e 8443 (HTTPS).
 - O scan foi rápido e discreto, adequado para reconhecimento inicial.
 - O mapeamento de portas abertas é essencial para determinar possíveis pontos de exploração.
 
-<h3 style="text-align: center; text-decoration: underline;; font-size: 1.8rem">Fase 2: Testes no Modo Detecção</h3>
+### Fase 2: Testes no Modo Detecção
 
 Nesta etapa, o WAF foi configurado apenas para detectar ataques, sem realizar bloqueio. Essa fase é essencial para validar as regras de segurança sem interferir na disponibilidade da aplicação. A configuração utilizada foi:
 
@@ -92,7 +87,7 @@ Os logs JSON coletados trouxeram informações valiosas, incluindo scores de ano
 ![Código Utilizado](./prints/print02.png)
 ![Código Utilizado](./prints/print03.png)
 
-### Comando executado
+#### Comando executado
 
 ```bash
 docker exec kali_lab35 curl -s \
@@ -195,11 +190,11 @@ Status: 403
 - Código `403 Forbidden` confirma que o modo bloqueio estava ativo.
 - O nginx exibiu a página padrão de acesso negado.
 
-<h3 style="text-align: center; text-decoration: underline;; font-size: 1.8rem">Fase 4 – Monitoramento Contínuo</h3>
+### Fase 4 – Monitoramento Contínuo
 
 O monitoramento contínuo garante que toda a infraestrutura esteja sendo acompanhada em tempo real, com logs centralizados via Dozzle e análise detalhada dos eventos detectados pelo ModSecurity. Essa fase não só registra os incidentes, mas também identifica padrões de ataque e gera alertas inteligentes para antecipar ameaças.
 
-### Ferramentas e Configurações
+#### Ferramentas e Configurações
 
 - **Ferramenta de Monitoramento:** Dozzle (interface web para visualizar logs dos containers em tempo real).
 - **Fonte dos Logs:** `JSON` estruturado gerado pelo ModSecurity.
@@ -210,7 +205,7 @@ O monitoramento contínuo garante que toda a infraestrutura esteja sendo acompan
   - Correlação de eventos entre múltiplos containers.
 - **Dashboards:** Métricas de segurança e KPIs para análise de tendências.
 
-### Tentativa de SQL Injection
+#### Tentativa de SQL Injection
 
 <img src="./prints/print06.png" />
 
@@ -239,7 +234,7 @@ O monitoramento contínuo garante que toda a infraestrutura esteja sendo acompan
 
 **Resumo:** _Ataque de `SQL Injection` detectado, logado corretamente pelo WAF, sem bloqueio (modo `DetectionOnly`)._
 
-### Tentativa de XSS Refletido
+#### Tentativa de XSS Refletido
 
 <img src="./prints/print08.png" />
 
@@ -269,7 +264,7 @@ O monitoramento contínuo garante que toda a infraestrutura esteja sendo acompan
 
 **Resumo:** _Tentativa de XSS detectada em múltiplos pontos, registrada em log, mas não bloqueada._
 
-### Interpretação Final
+#### Interpretação Final
 
 - O Dozzle centralizou e exibiu em tempo real os logs do ModSecurity, permitindo visibilidade total da infraestrutura.
 - O WAF identificou tentativas de SQLi e XSS com regras detalhadas e scores de anomalia.
@@ -279,7 +274,7 @@ O monitoramento contínuo garante que toda a infraestrutura esteja sendo acompan
   - **Ajuste de thresholds** e regras.
   - **Respostas proativas** a ameaças emergentes.
 
-<h3 style="text-align: center; text-decoration: underline;; font-size: 1.8rem">Fase 5 – Análise e Resposta</h3>
+### Fase 5 – Análise e Resposta
 
 Essa fase aplicou o framework NIST SP 800-61 Rev. 2, cobrindo todo o ciclo de resposta a incidentes:
 
@@ -289,7 +284,7 @@ Essa fase aplicou o framework NIST SP 800-61 Rev. 2, cobrindo todo o ciclo de re
 - Resposta prática (playbooks, containment e comunicação com stakeholders).
 - Relatórios técnicos e executivos com recomendações baseadas em risco.
 
-### Ferramentas e Evidências
+#### Ferramentas e Evidências
 
 - **Framework:** NIST Incident Response.
 - **Evidências coletadas:**
@@ -298,7 +293,7 @@ Essa fase aplicou o framework NIST SP 800-61 Rev. 2, cobrindo todo o ciclo de re
   - Comandos executados.
 - **Documentação:** Relatório técnico padronizado (executive summary + deep-dive técnico + recomendações).
 
-### Logs Coletados – Inicialização do WAF
+#### Logs Coletados – Inicialização do WAF
 
 Trecho dos logs:
 
@@ -321,7 +316,7 @@ Trecho dos logs:
 - 🔸 Engine usada: libmodsecurity3 v3.0.14.
 - **Resumo:** _WAF subiu corretamente, pronto para detectar ataques_.
 
-### Configuração das Regras CRS
+#### Configuração das Regras CRS
 
 - `BLOCKING_PARANOIA=1` e `DETECTION_PARANOIA=1`: nível básico de sensibilidade (paranoia-level 1).
 - `ANOMALY_INBOUND=5` e `ANOMALY_OUTBOUND=4`: thresholds para acionar alertas de ataque.
@@ -482,13 +477,13 @@ Aplicamos o NIST SP 800-61 adaptado para cenários web/WAF. Procedimentos implem
   - DetectionOnly é essencial para ajuste fino antes de ativar bloqueio.
   - libinjection se mostrou eficaz na identificação de payloads.
 
-<h3 style="text-align: center; text-decoration:underline; font-size: 1.8rem">Plano de Ação (Modelo 80/20)</h3>
+### Plano de Ação (Modelo 80/20)
 
 Aplicamos o princípio de Pareto para priorizar controles de segurança: 20% das medidas mais estratégicas geram ~80% da proteção efetiva.
 
 **Foco:** medidas alto impacto/baixo esforço primeiro → maior ROI em segurança.
 
-### Implementações Prioritárias (Alto Impacto / Baixo Esforço)
+#### Implementações Prioritárias (Alto Impacto / Baixo Esforço)
 
 - **Configuração de Alertas Automatizados:**
   - **Impacto:** Crítico
@@ -528,7 +523,7 @@ Aplicamos o princípio de Pareto para priorizar controles de segurança: 20% das
   - **Prazo:** 1 mês
   - **Benefício:** visibilidade clara do cenário de ameaças e suporte a decisões.
 
-### Implementações Futuras (Médio/Longo Prazo)
+#### Implementações Futuras (Médio/Longo Prazo)
 
 - **Geo-blocking por País:**
   - **Impacto:** Médio
@@ -549,7 +544,7 @@ Aplicamos o princípio de Pareto para priorizar controles de segurança: 20% das
   - **Monitoramento:** Dozzle + dashboards
   - **ROI estimado:** prevenção de ~95% dos ataques testados
 
-<h3 style="text-align: center; text-decoration: underline; font-size: 1.8rem">Conclusão — Relatório WAF + DVWA</h3>
+### Conclusão — Relatório WAF + DVWA
 
 - **Resultados Alcançados:**
   - 100% de detecção nos ataques SQL Injection e Cross-Site Scripting (XSS) testados.
