@@ -1,6 +1,6 @@
 # Desafio Final CTF
 
-## 🛡️ Relatório de Análise de Vulnerabilidades - TechCorp Solutions
+## Relatório de Análise de Vulnerabilidades - TechCorp Solutions
 
 ### Sumário Executivo
 
